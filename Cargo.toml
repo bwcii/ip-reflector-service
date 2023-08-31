@@ -1,6 +1,6 @@
 [package]
 name = "ip-reflector-service"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Returns the public IP address of the endopint making the call to the service."
 license = "BSD-2-Clause"
