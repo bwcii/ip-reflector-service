@@ -1,5 +1,5 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/cloud-run-repo/ip-reflector-service:latest', '.']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/cloud-run-repo/ip-reflector-service:0.1.1', '.']
 images:
-- 'us-central1-docker.pkg.dev/${PROJECT_ID}/test/ip-reflector-service:latest'
+- 'us-central1-docker.pkg.dev/${PROJECT_ID}/test/ip-reflector-service:0.1.1'
