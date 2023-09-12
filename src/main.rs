@@ -12,6 +12,12 @@ struct Args {
 
     #[arg(short, long, default_value_t = 8080)]
     port: u16,
+
+    #[arg(short = 'v', long = "verbose", default_value_t = false)]
+    verbose: bool,
+
+    #[arg(short = 'V', long = "veryverbose", default_value_t = false)]
+    veryverbose: bool,
 }
 
 #[tokio::main]
@@ -36,6 +42,9 @@ async fn main() {
         .unwrap()
 }
 
-async fn handler(ConnectInfo(addr): ConnectInfo<SocketAddr>) -> String {
+// Figure out how to pass state/values into a handler
+async fn handler(test: String, ConnectInfo(addr): ConnectInfo<SocketAddr>) -> String {
+    println!("Received a new connection from {}", addr.ip());
+    println!("Test Value Goes Here : {}", test);
     format!("{}\r\n", addr.ip())
 }
