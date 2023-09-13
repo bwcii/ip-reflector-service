@@ -1,5 +1,6 @@
 use axum::{
     extract::ConnectInfo, 
+    extract::State,
     routing::get, Router,
 };
 use std::net::{SocketAddr, Ipv4Addr};
@@ -20,11 +21,27 @@ struct Args {
     veryverbose: bool,
 }
 
+#[derive(Clone)]
+struct AppState {
+    verbosity: u16,
+}
+
 #[tokio::main]
 async fn main() {
 
     let args = Args::parse();
     let listening_ip_addr: Ipv4Addr = args.listening_ip.parse().expect("Unable to parse IP address");
+
+    let mut logging_state: AppState = AppState {
+        verbosity : 0,
+    };
+
+    if args.veryverbose {
+        logging_state.verbosity = 2;
+    }
+    else if args.verbose {
+        logging_state.verbosity = 1;
+    };
 
     println!("Listening IP : {}", args.listening_ip);
     if args.listening_ip == String::from("0.0.0.0") {
@@ -33,18 +50,26 @@ async fn main() {
     println!("Listening Port : {}", args.port);
 
     let app = Router::new()
-    .route("/", get(handler));
-    let addr = SocketAddr::from((listening_ip_addr, args.port));
+    .route("/", get(handler))
+    .with_state(logging_state);
 
+    let addr = SocketAddr::from((listening_ip_addr, args.port));
     axum::Server::bind(&addr)
         .serve(app.into_make_service_with_connect_info::<SocketAddr>())
         .await
         .unwrap()
 }
 
-// Figure out how to pass state/values into a handler
-async fn handler(test: String, ConnectInfo(addr): ConnectInfo<SocketAddr>) -> String {
-    println!("Received a new connection from {}", addr.ip());
-    println!("Test Value Goes Here : {}", test);
+async fn handler(State(logging_state): State<AppState>, ConnectInfo(addr): ConnectInfo<SocketAddr>) -> String {
+    if logging_state.verbosity == 1 {
+        println!("Received a new connection from {}", addr.ip());
+    }
+    else if logging_state.verbosity == 2 {
+        println!("Very Verbose Log goes here!");
+    }
+    else {
+        println!("A new connection was made!");
+    };
+
     format!("{}\r\n", addr.ip())
 }
