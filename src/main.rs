@@ -4,7 +4,10 @@ use axum::{
     extract::TypedHeader,
     headers::UserAgent,
     routing::get, Router,
+    http::Request,
+    body::Body,
 };
+use axum_client_ip::XForwardedFor;
 use std::net::{SocketAddr, Ipv4Addr};
 use clap::Parser;
 
@@ -62,17 +65,20 @@ async fn main() {
         .unwrap()
 }
 
-async fn handler(TypedHeader(user_agent): TypedHeader<UserAgent>, State(logging_state): State<AppState>, ConnectInfo(addr): ConnectInfo<SocketAddr>) -> String {
+async fn handler(XForwardedFor(ipthing): XForwardedFor, TypedHeader(user_agent): TypedHeader<UserAgent>, State(logging_state): State<AppState>, ConnectInfo(addr): ConnectInfo<SocketAddr>, request: Request<Body>) -> String {
     if logging_state.verbosity == 1 {
-        println!("Received a new connection from {}", addr.ip());
-    }
-    else if logging_state.verbosity == 2 {
         println!("Received a new connection from {}", addr.ip());
         println!("UserAgent: {}", user_agent);
     }
+    else if logging_state.verbosity == 2 {
+        println!("Received a new connection from {}", addr.ip());
+        println!("Full Request Details : {:?}", request);
+    }
     else {
-        println!("A new connection was made!");
+        println!("{:?}", ipthing);
+        println!("Received a new connection from {}", addr.ip());
     };
 
-    format!("{}\r\n", addr.ip())
+    //format!("{}\r\n", addr.ip())
+    format!("{:?}\r\n", ipthing.first().unwrap())
 }
