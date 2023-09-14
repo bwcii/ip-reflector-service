@@ -1,6 +1,8 @@
 use axum::{
     extract::ConnectInfo, 
     extract::State,
+    extract::TypedHeader,
+    headers::UserAgent,
     routing::get, Router,
 };
 use std::net::{SocketAddr, Ipv4Addr};
@@ -60,12 +62,13 @@ async fn main() {
         .unwrap()
 }
 
-async fn handler(State(logging_state): State<AppState>, ConnectInfo(addr): ConnectInfo<SocketAddr>) -> String {
+async fn handler(TypedHeader(user_agent): TypedHeader<UserAgent>, State(logging_state): State<AppState>, ConnectInfo(addr): ConnectInfo<SocketAddr>) -> String {
     if logging_state.verbosity == 1 {
         println!("Received a new connection from {}", addr.ip());
     }
     else if logging_state.verbosity == 2 {
-        println!("Very Verbose Log goes here!");
+        println!("Received a new connection from {}", addr.ip());
+        println!("UserAgent: {}", user_agent);
     }
     else {
         println!("A new connection was made!");
