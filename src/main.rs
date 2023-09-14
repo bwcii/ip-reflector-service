@@ -1,5 +1,4 @@
 use axum::{
-    extract::ConnectInfo, 
     extract::State,
     extract::TypedHeader,
     headers::UserAgent,
@@ -65,20 +64,18 @@ async fn main() {
         .unwrap()
 }
 
-async fn handler(XForwardedFor(ipthing): XForwardedFor, TypedHeader(user_agent): TypedHeader<UserAgent>, State(logging_state): State<AppState>, ConnectInfo(addr): ConnectInfo<SocketAddr>, request: Request<Body>) -> String {
+async fn handler(XForwardedFor(x_forwarded_for_ip): XForwardedFor, TypedHeader(user_agent): TypedHeader<UserAgent>, State(logging_state): State<AppState>, request: Request<Body>) -> String {
     if logging_state.verbosity == 1 {
-        println!("Received a new connection from {}", addr.ip());
+        println!("Received a new connection from {:?}", x_forwarded_for_ip.first().unwrap());
         println!("UserAgent: {}", user_agent);
     }
     else if logging_state.verbosity == 2 {
-        println!("Received a new connection from {}", addr.ip());
+        println!("Received a new connection from {:?}", x_forwarded_for_ip.first().unwrap());
         println!("Full Request Details : {:?}", request);
     }
     else {
-        println!("{:?}", ipthing);
-        println!("Received a new connection from {}", addr.ip());
+        println!("Received a new connection from {:?}", x_forwarded_for_ip.first().unwrap());
     };
 
-    //format!("{}\r\n", addr.ip())
-    format!("{:?}\r\n", ipthing.first().unwrap())
+    format!("{:?}\r\n", x_forwarded_for_ip.first().unwrap())
 }
