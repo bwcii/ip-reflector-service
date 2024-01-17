@@ -19,5 +19,6 @@
     "serayuzgur.crates"
     "vadimcn.vscode-lldb"
     "WakaTime.vscode-wakatime"
+    "rangav.vscode-thunder-client"
   ];
 }
