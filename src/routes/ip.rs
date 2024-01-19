@@ -10,7 +10,7 @@ pub struct Data {
 
 pub async fn ip(headers: HeaderMap) -> Json<Data> {
 
-    let ipaddr = headers.get("forwarded").unwrap();
+    let ipaddr = headers.get("X-Forwarded-For").unwrap();
 
     let data: Data = Data {
         ip_address: ipaddr.to_str().unwrap().to_string(),
