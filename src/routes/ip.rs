@@ -1,5 +1,5 @@
 //use axum::http::HeaderMap;
-use axum::{Json, http::HeaderMap};
+use axum::http::HeaderMap;
 use serde::Serialize;
 
 #[derive(Serialize)]
@@ -8,13 +8,13 @@ pub struct Data {
 }
 
 
-pub async fn ip(headers: HeaderMap) -> Json<Data> {
+pub async fn ip(headers: HeaderMap) -> HeaderMap {
 
-    let ipaddr = headers.get("X-Forwarded-For").unwrap();
+    //let ipaddr = headers.get("X-Forwarded-For").unwrap();
 
-    let data: Data = Data {
-        ip_address: ipaddr.to_str().unwrap().to_string(),
-    };
-
-    Json(data)
+    //let data: Data = Data {
+    //    ip_address: ipaddr.to_str().unwrap().to_string(),
+    //};
+    let data = headers;
+    data
 }
