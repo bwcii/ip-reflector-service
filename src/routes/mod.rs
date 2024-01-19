@@ -1,9 +1,9 @@
 mod index;
-mod two;
+mod ip;
 
 use axum::{Router, routing::get};
 
 pub fn create_routes() -> Router {
     Router::new().route("/", get(index::handler))
-    .route("/two", get(two::two))
+    .route("/v1/ip", get(ip::ip))
 }
