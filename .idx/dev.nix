@@ -7,6 +7,7 @@
     pkgs.cargo
     pkgs.rustc
     pkgs.stdenv.cc
+    pkgs.cargo-watch
   ];
   # Sets environment variables in the workspace
   env = {
