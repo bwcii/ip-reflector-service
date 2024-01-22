@@ -22,4 +22,14 @@
     "WakaTime.vscode-wakatime"
     "rangav.vscode-thunder-client"
   ];
+  idx.previews = {
+    enable = true;
+    previews = [
+      {
+        command = ["cargo" "watch" "-x" "run"];
+        manager = "web";
+        id = "web";
+      }
+    ];
+  };
 }
