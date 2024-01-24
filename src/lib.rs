@@ -11,8 +11,6 @@ pub async fn run() {
     });
     let listening_socket = listening_ip.to_owned() + ":" + &listening_port;
     println!("Listening On : {}", listening_socket);
-    let apikeytest = env::var("IPGEOAPIKEY").unwrap();
-    println!("API Key : {}", apikeytest);
 
     let app = create_routes();
 
