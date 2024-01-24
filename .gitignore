@@ -12,3 +12,6 @@ Cargo.lock
 
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
+
+# Keep html files used to preview hbs templates out of the repo.
+templates/*.html
