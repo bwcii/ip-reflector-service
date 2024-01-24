@@ -8,6 +8,7 @@
     pkgs.rustc
     pkgs.stdenv.cc
     pkgs.cargo-watch
+    pkgs.openssl
   ];
   # Sets environment variables in the workspace
   env = {
