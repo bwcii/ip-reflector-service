@@ -21,15 +21,6 @@
     "vadimcn.vscode-lldb"
     "WakaTime.vscode-wakatime"
     "rangav.vscode-thunder-client"
+    "ritwickdey.LiveServer"
   ];
-  idx.previews = {
-    enable = true;
-    previews = [
-      {
-        command = ["cargo" "watch" "-x" "run"];
-        manager = "web";
-        id = "web";
-      }
-    ];
-  };
 }
