@@ -54,3 +54,8 @@ pub async fn ip(headers: HeaderMap) -> Json<IPData> {
 //    };
 //    Json(data)
 //}
+
+pub async fn ip_geo(headers: HeaderMap) -> String {
+    println!("{:?}", headers);
+    format!("Hello World")
+}
