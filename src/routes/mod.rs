@@ -11,7 +11,8 @@ pub fn create_routes() -> Router {
         .allow_origin(Any);
 
     Router::new().route("/", get(index::handler))
-    .route("/v1/ip", get(ip::ip))
     .route("/favicon.ico", get(favicon::favicon))
+    .route("/v1/ip", get(ip::ip))
+    .route("/v1/ipgeo", get(ip::ip_geo))
     .layer(cors)
 }

@@ -11,6 +11,8 @@ license = "BSD-2-Clause"
 axum = "0.7.4"
 base64 = "0.21.7"
 handlebars = { version = "5.1.1", features = ["dir_source"] }
+openssl = { version = "0.10.63", features = ["vendored"] }
+reqwest = { version = "0.11.23", features = ["json"] }
 serde = { version = "1.0.195", features = ["derive"] }
 tokio = { version = "1.35.1", features = ["full"] }
 tower-http = { version = "0.5.1", features = ["cors", "fs"] }

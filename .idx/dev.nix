@@ -8,6 +8,9 @@
     pkgs.rustc
     pkgs.stdenv.cc
     pkgs.cargo-watch
+    pkgs.openssl
+    pkgs.perl
+    pkgs.gnumake
   ];
   # Sets environment variables in the workspace
   env = {
